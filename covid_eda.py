@@ -19,7 +19,7 @@ def load_data():
             'Fecha_de_muerte', 'Fecha_de_recuperacion', 'Fecha_de_diagnostico'
         ]
         
-        data = pd.read_csv('CasosCovidAtlantico.csv', parse_dates=date_cols)
+        data = pd.read_csv('CasosCovidCosta.csv', parse_dates=date_cols)
         
         # Convert specific columns to appropriate types
         data['ID_de_caso'] = data['ID_de_caso'].astype('int64')
