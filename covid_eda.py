@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-#import matplotlib.pyplot as plt  # Try moving this after numpy and pandas
-import matplotlib as plt  # Try moving this after numpy and pandas
+# import matplotlib.pyplot as plt  # Try moving this after numpy and pandas
+import matplotlib as plt  # Prueba
 import streamlit as st
 import seaborn as sns
 from datetime import datetime, timedelta
