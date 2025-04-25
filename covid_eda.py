@@ -1,11 +1,11 @@
-import streamlit as st
+import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # Try moving this after numpy and pandas
 import seaborn as sns
+import streamlit as st
 from datetime import datetime, timedelta
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.metrics import mean_squared_error
-import numpy as np
 
 # Set page config
 st.set_page_config(page_title="COVID Data EDA", layout="wide")
