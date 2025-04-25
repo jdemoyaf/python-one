@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt  # Try moving this after numpy and pandas
-import seaborn as sns
+#import matplotlib.pyplot as plt  # Try moving this after numpy and pandas
+import matplotlib as plt  # Try moving this after numpy and pandas
 import streamlit as st
+import seaborn as sns
 from datetime import datetime, timedelta
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.metrics import mean_squared_error
