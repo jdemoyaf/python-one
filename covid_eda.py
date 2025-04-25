@@ -127,6 +127,65 @@ if data is not None:
     st.subheader("Resumen de datos filtrados")
     st.write(f"Número de registros: {len(filtered_data):,}")
     st.write(filtered_data.head())
+    
+    # Create new count variables time series
+    start_date = datetime.combine(fecha_inicial, datetime.min.time())
+    end_date = datetime.combine(fecha_final, datetime.min.time())
+
+    # Create complete date range
+    full_date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+
+    # Function to create count time series
+    def create_count_series(data, date_col, date_range):
+        counts = data[date_col].value_counts().sort_index()
+        return counts.reindex(date_range, fill_value=0)
+
+    # Create the three time series
+    n_Infectados = create_count_series(filtered_data, 'Fecha_de_inicio_de_sintomas', full_date_range)
+    n_Recuperados = create_count_series(filtered_data, 'Fecha_de_recuperacion', full_date_range)
+    n_Fallecidos = create_count_series(filtered_data, 'Fecha_de_muerte', full_date_range)
+
+    # Combine into a DataFrame
+    counts_df = pd.DataFrame({
+        'Infectados': n_Infectados,
+        'Recuperados': n_Recuperados,
+        'Fallecidos': n_Fallecidos
+    })
+
+    # Add new section for count analysis
+    st.header("Análisis de Conteos Diarios")
+    
+    # Combined time series plot
+    st.subheader("Evolución Diaria")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    counts_df.plot(ax=ax)
+    plt.title("Conteo Diario de Casos COVID-19")
+    plt.xlabel("Fecha")
+    plt.ylabel("Número de Casos")
+    plt.grid(True, linestyle='--', alpha=0.7)
+    st.pyplot(fig)
+
+    # Correlation heatmap
+    st.subheader("Correlación entre Conteos Diarios")
+    corr_matrix = counts_df.corr()
+    
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.heatmap(
+        corr_matrix,
+        annot=True,
+        fmt=".2f",
+        cmap="coolwarm",
+        center=0,
+        square=True,
+        linewidths=.5,
+        ax=ax
+    )
+    plt.title("Correlación entre Conteos Diarios")
+    st.pyplot(fig)
+    
+    # Display correlation matrix
+    st.write("Matriz de Correlación:")
+    st.dataframe(corr_matrix.style.background_gradient(cmap="coolwarm", axis=None))
 
     # EDA based on selected variable type
     st.subheader(f"Análisis de: {selected_var}")
@@ -223,7 +282,7 @@ if data is not None:
             st.write("**Día de la semana**")
             weekday_counts = filtered_data[selected_var].dt.day_name().value_counts()
             st.write(weekday_counts)
-            
+                        
 # Time Series Forecasting Section
     st.header("Pronóstico de Series Temporales")
 
